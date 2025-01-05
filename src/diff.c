@@ -102,8 +102,9 @@ static bool binary;
 enum { binary = true };
 #endif
 
-/* Use Linux-style O_PATH if available, POSIX-style O_SEARCH otherwise.  */
-#ifdef O_PATH
+/* Use Linux-style O_PATH if available and supported by fstat(),
+   POSIX-style O_SEARCH otherwise.  */
+#if O_PATH_SUPPORTS_FSTAT
 enum { O_PATH_DEFINED = true };
 enum { O_PATHSEARCH = O_PATH };
 #else

@@ -60,6 +60,46 @@ AC_DEFINE([GNULIB_MBRTOC32_REGULAR], [1],
   [Do not worry about rare encodings like CP864, EBCDIC, Johab, and Shift JIS
    that glibc does not support.])
 
+AC_C_INLINE
+
+AC_CHECK_MEMBERS([struct stat.st_rdev])
+AC_HEADER_DIRENT
+AC_HEADER_SYS_WAIT
+AC_TYPE_PID_T
+
+AC_CHECK_FUNCS_ONCE([sigaction sigprocmask])
+if test $ac_cv_func_sigprocmask = no; then
+  AC_CHECK_FUNCS([sigblock])
+fi
+AC_FUNC_FORK
+
+dnl O_PATH exists since Linux 2.6.39, but is supported with fstat() only since
+dnl Linux 3.6. Use a configure test rather than testing `uname -sr`.
+AC_CACHE_CHECK([whether O_PATH supports fstat],
+  [du_cv_O_PATH_fstat],
+  [AC_RUN_IFELSE(
+     [AC_LANG_PROGRAM([[
+        #include <sys/types.h>
+        #include <sys/stat.h>
+        #include <fcntl.h>
+        ]], [[
+        struct stat statbuf;
+        int fd = openat (AT_FDCWD, "conftest.c", O_RDONLY|O_PATH);
+        return !(fd >= 0 && fstat (fd, &statbuf) == 0);
+        ]])
+     ],
+     [du_cv_O_PATH_fstat=yes],
+     [du_cv_O_PATH_fstat=no],
+     [du_cv_O_PATH_fstat="guessing no"])
+  ])
+case "$du_cv_O_PATH_fstat" in
+  yes)
+    AC_DEFINE([O_PATH_SUPPORTS_FSTAT], [1],
+      [Define to 1 if <fcntl.h> defines O_PATH and file descriptors
+       created with this flag are supported by fstat().])
+    ;;
+esac
+
 # gl_GCC_VERSION_IFELSE([major], [minor], [run-if-found], [run-if-not-found])
 # ------------------------------------------------
 # If $CPP is gcc-MAJOR.MINOR or newer, then run RUN-IF-FOUND.
@@ -137,24 +177,11 @@ if test $gl_gcc_warnings != no; then
   AC_DEFINE([GNULIB_PORTCHECK], [1], [enable some gnulib portability checks])
 fi
 
-AC_C_INLINE
-
 AC_DEFINE([DEFAULT_EDITOR_PROGRAM], ["ed"],
   [Name of editor program, unless overridden.])
 
 AC_PATH_PROG([PR_PROGRAM], [pr], [""])
 AC_DEFINE_UNQUOTED([PR_PROGRAM], ["$PR_PROGRAM"], [Name of "pr" program.])
-
-AC_CHECK_MEMBERS([struct stat.st_rdev])
-AC_HEADER_DIRENT
-AC_HEADER_SYS_WAIT
-AC_TYPE_PID_T
-
-AC_CHECK_FUNCS_ONCE([sigaction sigprocmask])
-if test $ac_cv_func_sigprocmask = no; then
-  AC_CHECK_FUNCS([sigblock])
-fi
-AC_FUNC_FORK
 
 # When .tarball-version exists, we're building from a tarball
 # and must not make man/*.1 files depend on the generated src/version.c,
