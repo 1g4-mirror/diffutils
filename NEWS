@@ -66,6 +66,10 @@ GNU diffutils NEWS                                    -*- outline -*-
   when comparing files in a mutating file system.
   [bug present since "the beginning"]
 
+** Release
+
+  distribute gzip-compressed tarballs once again
+
 
 * Noteworthy changes in release 3.10 (2023-05-21) [stable]
 

@@ -28,8 +28,7 @@ AC_CONFIG_SRCDIR([src/diff.c])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
 
-AM_INIT_AUTOMAKE([1.11 dist-xz no-dist-gzip subdir-objects
-                       color-tests parallel-tests])
+AM_INIT_AUTOMAKE([1.11 dist-xz subdir-objects color-tests parallel-tests])
 AM_SILENT_RULES([yes]) # make --enable-silent-rules the default.
 
 AC_CONFIG_HEADERS([lib/config.h:lib/config.hin])
