@@ -36,7 +36,7 @@ announcement_Cc_ = $(translation_project_), $(PACKAGE)-devel@gnu.org
 # Now that we have better tests, make this the default.
 export VERBOSE = yes
 
-old_NEWS_hash = d6a8096805f9b3ee162842058477f0bc
+old_NEWS_hash = eefa9b0b34af4272f659040508d9acd0
 
 # Tell maint.mk's syntax-check rules that diff gets config.h directly or
 # via diff.h or system.h.
