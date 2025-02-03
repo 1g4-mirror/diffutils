@@ -42,6 +42,9 @@ old_NEWS_hash = d6a8096805f9b3ee162842058477f0bc
 # via diff.h or system.h.
 config_h_header = (<config\.h>|"(diff|system)\.h")
 
+# Write base64-encoded (not hex) checksums into the announcement.
+announce_gen_args = --cksum-checksums
+
 # Add an exemption for sc_makefile_at_at_check.
 _makefile_at_at_check_exceptions = ' && !/MAKEINFO/'
 
