@@ -233,6 +233,7 @@ main (int argc, char **argv)
   set_program_name (argv[0]);
   setlocale (LC_ALL, "");
   bindtextdomain (PACKAGE, LOCALEDIR);
+  bindtextdomain ("gnulib", GNULIB_LOCALEDIR);
   textdomain (PACKAGE);
   c_stack_action (nullptr);
   xstdopen ();
