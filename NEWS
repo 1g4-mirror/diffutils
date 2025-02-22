@@ -2,6 +2,12 @@ GNU diffutils NEWS                                    -*- outline -*-
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Bug fixes
+
+  diff -r no longer merely summarizes when comparing an empty regular
+  file to a nonempty regular file.
+  [bug#76452 introduced in 3.11]
+
 
 * Noteworthy changes in release 3.11 (2025-02-02) [stable]
 
