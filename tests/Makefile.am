@@ -9,6 +9,7 @@ TESTS = \
   cmp \
   colliding-file-names \
   diff3 \
+  empty-file \
   excess-slash \
   expand-tabs \
   help-version	\
