@@ -1012,7 +1012,7 @@ find_and_hash_each_line (struct file_data *current)
 	  linbuf += linbuf_base;
 	  linbuf = xpalloc (linbuf, &n, 1, -1, sizeof *linbuf);
 	  linbuf -= linbuf_base;
-	  alloc_lines = n - linbuf_base;
+	  alloc_lines = linbuf_base + n;
         }
       linbuf[line] = p;
 

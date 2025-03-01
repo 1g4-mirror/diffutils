@@ -8,6 +8,9 @@ GNU diffutils NEWS                                    -*- outline -*-
   file to a nonempty regular file.
   [bug#76452 introduced in 3.11]
 
+  diff -y no longer crashes when given nontrivial differences.
+  [bug#76613 introduced in 3.11]
+
 
 * Noteworthy changes in release 3.11 (2025-02-02) [stable]
 
