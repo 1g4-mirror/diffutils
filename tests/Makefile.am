@@ -25,6 +25,7 @@ TESTS = \
   no-dereference \
   no-newline-at-eof \
   side-by-side \
+  side-by-side-seq \
   starting-file \
   stdin \
   strcoll-0-names \
