@@ -85,3 +85,5 @@ exclude_file_name_regexp--sc_prohibit_strcmp = ^gl/lib/
 # Tell gnulib's tight_scope rule that we mark extern inlines with
 # DIFF_INLINE and SYSTEM_INLINE.
 export _gl_TS_extern = extern|DIFF_INLINE|SYSTEM_INLINE
+
+codespell_ignore_words_list = FO,ND,debbugs
