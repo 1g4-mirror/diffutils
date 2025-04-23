@@ -857,8 +857,7 @@ edit (struct line_filter *left, char const *lname, lin lline, lin llen,
 {
   for (;;)
     {
-      int cmd0;
-      int cmd1;
+      int cmd;
       bool gotcmd = false;
 
       while (! gotcmd)
@@ -867,8 +866,8 @@ edit (struct line_filter *left, char const *lname, lin lline, lin llen,
             perror_fatal (_("write failed"));
           ck_fflush (stdout);
 
-          cmd0 = skip_white ();
-          switch (cmd0)
+	  cmd = skip_white ();
+          switch (cmd)
             {
             case '1': case '2': case 'l': case 'r':
             case 's': case 'v': case 'q':
@@ -882,12 +881,15 @@ edit (struct line_filter *left, char const *lname, lin lline, lin llen,
               break;
 
             case 'e':
-              cmd1 = skip_white ();
+	      int cmd1 = skip_white ();
               switch (cmd1)
                 {
                 case '1': case '2': case 'b': case 'd': case 'l': case 'r':
 		  if (skip_white () == '\n')
-		    gotcmd = true;
+		    {
+		      gotcmd = true;
+		      cmd |= cmd1 << UCHAR_WIDTH;
+		    }
 		  else
                     {
                       give_help ();
@@ -908,7 +910,7 @@ edit (struct line_filter *left, char const *lname, lin lline, lin llen,
               if (feof (stdin))
                 {
                   gotcmd = true;
-                  cmd0 = 'q';
+                  cmd = 'q';
                   break;
                 }
               FALLTHROUGH;
@@ -921,7 +923,7 @@ edit (struct line_filter *left, char const *lname, lin lline, lin llen,
             }
         }
 
-      switch (cmd0)
+      switch (cmd & UCHAR_MAX)
         {
         case '1': case 'l':
           lf_copy (left, llen, outfile);
@@ -954,6 +956,7 @@ edit (struct line_filter *left, char const *lname, lin lline, lin llen,
           if (! tmp)
 	    perror_fatal (squote (0, tmpname));
 
+	  int cmd1 = cmd >> UCHAR_WIDTH;
           switch (cmd1)
             {
             case 'd':
