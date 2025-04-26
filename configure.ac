@@ -184,8 +184,8 @@ AC_DEFINE_UNQUOTED([PR_PROGRAM], ["$PR_PROGRAM"], [Name of "pr" program.])
 
 # When .tarball-version exists, we're building from a tarball
 # and must not make man/*.1 files depend on the generated src/version.c,
-# because that would induce a requirement to run the help2man perl script.
-# We are not yet prepared to make perl a build-from-tarball requirement.
+# because that would induce a requirement to run help2man.
+# We are not yet prepared to make help2man a build-from-tarball requirement.
 # Hence, here we detect .tarball-version existence.  When not present,
 # we define a variable to be used in man/Makefile.am to induce the
 # proper dependency (so that man/*.1 will be rebuilt upon any version change),
