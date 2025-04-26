@@ -880,7 +880,7 @@ edit (struct line_filter *left, char const *lname, lin lline, lin llen,
                 }
               break;
 
-            case 'e':
+	    case 'e':;
 	      int cmd1 = skip_white ();
               switch (cmd1)
                 {
