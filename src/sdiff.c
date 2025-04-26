@@ -821,13 +821,8 @@ static int
 skip_white (void)
 {
   int c;
-  for (;;)
-    {
-      c = getchar ();
-      if (! c_isspace (c) || c == '\n')
-        break;
-      checksigs ();
-    }
+  while ((c = getchar ()) != '\n' && c_isspace (c))
+    checksigs ();
   if (ferror (stdin))
     perror_fatal (_("read failed"));
   return c;
@@ -869,41 +864,31 @@ edit (struct line_filter *left, char const *lname, lin lline, lin llen,
 	  cmd = skip_white ();
           switch (cmd)
             {
-            case '1': case '2': case 'l': case 'r':
-            case 's': case 'v': case 'q':
-	      if (skip_white () == '\n')
-		gotcmd = true;
-	      else
-                {
-                  give_help ();
-                  flush_line ();
-                }
-              break;
-
 	    case 'e':;
 	      int cmd1 = skip_white ();
               switch (cmd1)
                 {
-                case '1': case '2': case 'b': case 'd': case 'l': case 'r':
-		  if (skip_white () == '\n')
-		    {
-		      gotcmd = true;
-		      cmd |= cmd1 << UCHAR_WIDTH;
-		    }
-		  else
-                    {
-                      give_help ();
-                      flush_line ();
-                    }
-                  break;
                 case '\n':
                   gotcmd = true;
-                  break;
+		  continue;
                 default:
                   give_help ();
                   flush_line ();
+		  continue;
+		case '1': case '2': case 'b': case 'd': case 'l': case 'r':
+		  cmd |= cmd1 << UCHAR_WIDTH;
 		  break;
                 }
+	      FALLTHROUGH;
+	    case '1': case '2': case 'l': case 'r':
+	    case 's': case 'v': case 'q':
+	      if (skip_white () == '\n')
+		gotcmd = true;
+	      else
+		{
+		  give_help ();
+		  flush_line ();
+		}
               break;
 
             case EOF:
