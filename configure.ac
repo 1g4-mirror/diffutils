@@ -59,6 +59,9 @@ AC_DEFINE([GNULIB_MBRTOC32_REGULAR], [1],
   [Do not worry about rare encodings like CP864, EBCDIC, Johab, and Shift JIS
    that glibc does not support.])
 
+AC_DEFINE([REQUIRE_GNUISH_STRFTIME_AM_PM], [0],
+  [Do not worry about GNU strftime behavior for AM and PM indicators.])
+
 AC_C_INLINE
 
 AC_CHECK_MEMBERS([struct stat.st_rdev])
