@@ -47,8 +47,8 @@ diff3_SOURCES = diff3.c system.c
 sdiff_SOURCES = sdiff.c system.c
 diff_SOURCES = \
   analyze.c context.c diff.c dir.c ed.c ifdef.c io.c \
-  normal.c side.c system.c util.c
-noinst_HEADERS = diff.h system.h
+  normal.c side.c syncsig.c system.c util.c
+noinst_HEADERS = diff.h syncsig.h system.h
 
 MOSTLYCLEANFILES = paths.h paths.ht
 
