@@ -100,7 +100,9 @@ enum
 typedef void (*sighandler) (int);
 static void signal_handler (int, sighandler);
 
-#if HAVE_SIGACTION
+/* Use SA_NOCLDSTOP as a proxy for whether the sigaction machinery is
+   present.  */
+#ifdef SA_NOCLDSTOP
 /* Prefer 'sigaction' if available, since 'signal' can lose signals.  */
 static struct sigaction initial_action[NUM_SIGS];
 static sighandler
@@ -714,21 +716,21 @@ static bool sigs_trapped;
 static void
 catchsig (int s)
 {
-#if ! HAVE_SIGACTION
+#ifndef SA_NOCLDSTOP
   signal (s, SIG_IGN);
 #endif
   if (! (s == SIGINT && ignore_SIGINT))
     signal_received = s;
 }
 
-#if HAVE_SIGACTION
+#ifdef SA_NOCLDSTOP
 static struct sigaction catchaction;
 #endif
 
 static void
 signal_handler (int sig, sighandler handler)
 {
-#if HAVE_SIGACTION
+#ifdef SA_NOCLDSTOP
   catchaction.sa_handler = handler;
   sigaction (sig, &catchaction, 0);
 #else
@@ -739,7 +741,7 @@ signal_handler (int sig, sighandler handler)
 static void
 trapsigs (void)
 {
-#if HAVE_SIGACTION
+#ifdef SA_NOCLDSTOP
   catchaction.sa_flags = SA_RESTART;
   sigemptyset (&catchaction.sa_mask);
   for (int i = 0;  i < NUM_SIGS;  i++)
@@ -748,7 +750,7 @@ trapsigs (void)
 
   for (int i = 0;  i < NUM_SIGS;  i++)
     {
-#if HAVE_SIGACTION
+#ifdef SA_NOCLDSTOP
       sigaction (sigs[i], nullptr, &initial_action[i]);
 #else
       initial_action[i] = signal (sigs[i], SIG_IGN);
@@ -773,7 +775,7 @@ untrapsig (int s)
     for (int i = 0;  i < NUM_SIGS;  i++)
       if ((! s || sigs[i] == s)  &&  initial_handler (i) != SIG_IGN)
         {
-#if HAVE_SIGACTION
+#ifdef SA_NOCLDSTOP
           sigaction (sigs[i], &initial_action[i], nullptr);
 #else
           signal (sigs[i], initial_action[i]);

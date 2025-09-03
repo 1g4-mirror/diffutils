@@ -87,10 +87,6 @@ AC_HEADER_DIRENT
 AC_HEADER_SYS_WAIT
 AC_TYPE_PID_T
 
-AC_CHECK_FUNCS_ONCE([sigaction sigprocmask])
-if test $ac_cv_func_sigprocmask = no; then
-  AC_CHECK_FUNCS([sigblock])
-fi
 AC_FUNC_FORK
 
 dnl O_PATH exists since Linux 2.6.39, but is supported with fstat() only since
