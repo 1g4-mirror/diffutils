@@ -803,7 +803,7 @@ checksigs (void)
 static void
 give_help (void)
 {
-  fprintf (stderr, "%s", _("\
+  fputs (_("\
 ed:\tEdit then use both versions, each decorated with a header.\n\
 eb:\tEdit then use both versions.\n\
 el or e1:\tEdit then use the left version.\n\
@@ -814,7 +814,7 @@ r or 2:\tUse the right version.\n\
 s:\tSilently include common lines.\n\
 v:\tVerbosely include common lines.\n\
 q:\tQuit.\n\
-"));
+"), stderr);
 }
 
 static int
