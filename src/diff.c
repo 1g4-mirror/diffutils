@@ -1075,11 +1075,10 @@ Mandatory arguments to long options are mandatory for short options too.\n\
 
   for (char const *const *p = option_help_msgid;  *p;  p++)
     {
-      if (!**p)
-        putchar ('\n');
-      else
+      char const *msg = *p;
+      if (*msg)
         {
-          char const *msg = _(*p);
+	  msg = gettext (msg);
 	  for (char const *nl; (nl = strchr (msg, '\n')); msg = nl + 1)
             {
 	      fputs ("  ", stdout);
@@ -1088,8 +1087,8 @@ Mandatory arguments to long options are mandatory for short options too.\n\
 
 	  if (*msg == ' ' || *msg == '-')
 	    fputs ("  ", stdout);
-	  puts (msg);
         }
+      puts (msg);
     }
   emit_bug_reporting_address ();
 }
