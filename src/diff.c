@@ -35,7 +35,7 @@
 #include <filenamecat.h>
 #include <fnmatch.h>
 #include <getopt.h>
-#include <hard-locale.h>
+#include <strftime.h>
 #include <progname.h>
 #include <quote.h>
 #include <sh-quote.h>
@@ -292,6 +292,21 @@ static int
 exclude_options (void)
 {
   return EXCLUDE_WILDCARDS | (ignore_file_name_case ? FNM_CASEFOLD : 0);
+}
+
+/* Return true if in a hard LC_TIME locale.  */
+static bool
+hard_locale_LC_TIME (void)
+{
+  /* Use the heuristic that %c has its usual POSIX meaning.
+     This is good enough in practice.  */
+  static struct tm const tm
+    = { .tm_year = 1970 - 1900, .tm_mon = 0, .tm_mday = 1,
+	.tm_hour = 23, .tm_min = 59, .tm_sec = 59 };
+  static char const expected[] = "Thu Jan  1 23:59:59 1970";
+  char buf[sizeof expected];
+  return (nstrftime (buf, sizeof buf, "%c", &tm, 0, 0) == sizeof buf - 1
+	  && memcmp (buf, expected, sizeof buf) == 0);
 }
 
 int
@@ -747,7 +762,7 @@ main (int argc, char **argv)
         specify_style (OUTPUT_NORMAL);
     }
 
-  if (output_style != OUTPUT_CONTEXT || hard_locale (LC_TIME))
+  if (output_style != OUTPUT_CONTEXT || hard_locale_LC_TIME ())
     {
 #if defined STAT_TIMESPEC || defined STAT_TIMESPEC_NS
       time_format = "%Y-%m-%d %H:%M:%S.%N %z";

@@ -37,6 +37,18 @@ AC_PROG_AWK
 AC_PROG_CC
 AM_MISSING_PROG([HELP2MAN], [help2man])
 AC_PROG_RANLIB
+
+# Do not worry about multibyte C locales.
+# This removes dependencies on hard-locale etc.
+gl_cv_func_mbrtowc_C_locale_sans_EILSEQ="guessing yes"
+gl_cv_func_mbrtoc32_C_locale_sans_EILSEQ="guessing yes"
+
+# Default Gnulib configuration to no multithreading,
+# since diffutils is single-threaded.
+# Although the builder can override this with the --enable-threads option
+# of 'configure', diffutils does not support that on all platforms.
+m4_define([gl_THREADLIB_DEFAULT_NO])
+
 gl_EARLY
 gl_USE_SYSTEM_EXTENSIONS
 gl_INIT
@@ -61,6 +73,8 @@ AC_DEFINE([GNULIB_MBRTOC32_REGULAR], [1],
 
 AC_DEFINE([REQUIRE_GNUISH_STRFTIME_AM_PM], [0],
   [Do not worry about GNU strftime behavior for AM and PM indicators.])
+AC_DEFINE([SUPPORT_NON_GREG_CALENDARS_IN_STRFTIME], [false],
+  [Do not worry about GNU strftime behavior for non-Gregorian calendars.])
 
 AC_C_INLINE
 

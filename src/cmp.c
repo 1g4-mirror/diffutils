@@ -28,7 +28,6 @@
 #include <exitfail.h>
 #include <file-type.h>
 #include <getopt.h>
-#include <hard-locale.h>
 #include <progname.h>
 #include <quote.h>
 #include <unlocked-io.h>
@@ -50,7 +49,8 @@ static bool
 hard_locale_LC_MESSAGES (void)
 {
 #if defined LC_MESSAGES && ENABLE_NLS
-  return hard_locale (LC_MESSAGES);
+  static char const copyright_string[] = "(C)";
+  return gettext (copyright_string) != copyright_string;
 #else
   return false;
 #endif
