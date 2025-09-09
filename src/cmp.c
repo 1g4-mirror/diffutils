@@ -45,12 +45,15 @@ static char const PROGRAM_NAME[] = "cmp";
   proper_name_lite ("Torbjorn Granlund", "Torbj\303\266rn Granlund"), \
   _("David MacKenzie")
 
+/* Return true if the locale's messages might not be those of C or POSIX.  */
 static bool
 hard_locale_LC_MESSAGES (void)
 {
-#if defined LC_MESSAGES && ENABLE_NLS
-  static char const copyright_string[] = "(C)";
-  return gettext (copyright_string) != copyright_string;
+#if ENABLE_NLS
+  /* GNU diff defines ENABLE_NLS only if gettext is preinstalled, and
+     on these platforms setlocale (LC_MESSAGES, nullptr) never returns nullptr
+     and always returns "C" when in the C or POSIX locales.  */
+  return !STREQ (setlocale (LC_MESSAGES, nullptr), "C");
 #else
   return false;
 #endif
