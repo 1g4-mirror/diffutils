@@ -76,6 +76,10 @@ AC_DEFINE([REQUIRE_GNUISH_STRFTIME_AM_PM], [0],
 AC_DEFINE([SUPPORT_NON_GREG_CALENDARS_IN_STRFTIME], [false],
   [Do not worry about GNU strftime behavior for non-Gregorian calendars.])
 
+# Diffutils translates Gnulib's msgids too.
+AC_DEFINE([GNULIB_TEXT_DOMAIN], [PACKAGE],
+  [Textdomain to use when translating Gnulib's msgids.])
+
 AC_C_INLINE
 
 AC_CHECK_MEMBERS([struct stat.st_rdev])
