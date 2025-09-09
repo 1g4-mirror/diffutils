@@ -212,7 +212,7 @@ test -f $srcdir/.tarball-version \
   && SRC_VERSION_C= \
   || SRC_VERSION_C=../src/version.c
 
-AM_GNU_GETTEXT([external], [need-ngettext])
+AM_GNU_GETTEXT([external], [need-formatstring-macros])
 AM_GNU_GETTEXT_VERSION([0.19.2])
 XGETTEXT="AWK='$AWK' \$(SHELL) \$(top_srcdir)/exgettext $XGETTEXT"
 
