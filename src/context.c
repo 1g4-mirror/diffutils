@@ -72,7 +72,8 @@ print_context_label (char const *mark,
 
       struct tm const *tm = localtime (&ts.tv_sec);
       int nsec = ts.tv_nsec;
-      if (tm && nstrftime (buf, sizeof buf, time_format, tm, localtz, nsec))
+      if (tm
+	  && 0 <= nstrftime (buf, sizeof buf, time_format, tm, localtz, nsec))
 	fprintf (outfile, "%s %s\t%s", mark, name, buf);
       else if (TYPE_SIGNED (time_t))
         {
